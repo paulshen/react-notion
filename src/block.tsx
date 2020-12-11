@@ -48,7 +48,7 @@ export const createRenderChildText = (
             return <s key={i}>{element}</s>;
           case "a":
             return (
-              <a className="notion-link" href={decorator[1]} key={i}>
+              <a className="underline" href={decorator[1]} key={i}>
                 {element}
               </a>
             );
@@ -95,6 +95,27 @@ interface Block {
   customBlockComponents?: CustomBlockComponents;
   customDecoratorComponents?: CustomDecoratorComponents;
 }
+
+const ColorMap = {
+  gray: "text-gray-400",
+  brown: "text-gray-400",
+  orange: "text-gray-400",
+  yellow: "text-gray-400",
+  teal: "text-gray-400",
+  blue: "text-gray-400",
+  purple: "text-gray-400",
+  pink: "text-gray-400",
+  red: "text-gray-400",
+  gray_background: "bg-gray-100",
+  brown_background: "bg-gray-400",
+  orange_background: "bg-gray-400",
+  yellow_background: "bg-gray-400",
+  teal_background: "bg-gray-400",
+  blue_background: "bg-gray-400",
+  purple_background: "bg-gray-400",
+  pink_background: "bg-gray-400",
+  red_background: "bg-gray-400"
+};
 
 export const Block: React.FC<Block> = props => {
   const {
@@ -206,14 +227,14 @@ export const Block: React.FC<Block> = props => {
       case "sub_header":
         if (!blockValue.properties) return null;
         return (
-          <h2 className="notion-h2">
+          <h2 className="text-3xl pt-8 pb-4 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h2>
         );
       case "sub_sub_header":
         if (!blockValue.properties) return null;
         return (
-          <h3 className="notion-h3">
+          <h3 className="text-xl pt-4 pb-2 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h3>
         );
@@ -226,10 +247,7 @@ export const Block: React.FC<Block> = props => {
         const blockColor = blockValue.format?.block_color;
         return (
           <p
-            className={classNames(
-              `notion-text`,
-              blockColor && `notion-${blockColor}`
-            )}
+            className={classNames("mb-2", blockColor && `notion-${blockColor}`)}
           >
             {renderChildText(blockValue.properties.title)}
           </p>
@@ -238,7 +256,7 @@ export const Block: React.FC<Block> = props => {
       case "numbered_list":
         const wrapList = (content: React.ReactNode, start?: number) =>
           blockValue.type === "bulleted_list" ? (
-            <ul className="notion-list notion-list-disc">{content}</ul>
+            <ul className="list-disc pl-6">{content}</ul>
           ) : (
             <ol start={start} className="notion-list notion-list-numbered">
               {content}
@@ -251,7 +269,9 @@ export const Block: React.FC<Block> = props => {
           output = (
             <>
               {blockValue.properties && (
-                <li>{renderChildText(blockValue.properties.title)}</li>
+                <li className="py-1">
+                  {renderChildText(blockValue.properties.title)}
+                </li>
               )}
               {wrapList(children)}
             </>
@@ -307,7 +327,7 @@ export const Block: React.FC<Block> = props => {
         break;
       }
       case "column_list":
-        return <div className="notion-row">{children}</div>;
+        return <div className="flex my-4">{children}</div>;
       case "column":
         const spacerWith = 46;
         const ratio = blockValue.format.column_ratio;
@@ -419,9 +439,9 @@ export const Block: React.FC<Block> = props => {
         return (
           <div
             className={classNames(
-              "notion-callout",
+              "flex space-x-3 p-4",
               blockValue.format.block_color &&
-                `notion-${blockValue.format.block_color}_co`
+                (ColorMap[blockValue.format.block_color] ?? undefined)
             )}
           >
             <div>
