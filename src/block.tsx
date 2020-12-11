@@ -16,9 +16,12 @@ import Code from "./components/code";
 import PageIcon from "./components/page-icon";
 import PageHeader from "./components/page-header";
 import { classNames, getTextContent, getListNumber } from "./utils";
+import { PostPaneLink } from "./components/PostPane";
 
 export const createRenderChildText = (
-  customDecoratorComponents?: CustomDecoratorComponents
+  customDecoratorComponents: CustomDecoratorComponents | undefined,
+  panes: any[],
+  exercises: any[]
 ) => (properties: DecorationType[]) => {
   return properties?.map(([text, decorations], i) => {
     if (!decorations) {
@@ -47,6 +50,17 @@ export const createRenderChildText = (
           case "s":
             return <s key={i}>{element}</s>;
           case "a":
+            const href = decorator[1];
+            const re = /^\/([0-9a-f]{32})$/;
+            const matches = re.exec(href);
+            if (matches !== null) {
+              const paneId = matches![1];
+              return (
+                <PostPaneLink panes={panes} paneId={paneId} key={i}>
+                  {element}
+                </PostPaneLink>
+              );
+            }
             return (
               <a className="underline" href={decorator[1]} key={i}>
                 {element}
@@ -89,6 +103,7 @@ interface Block {
   blockMap: BlockMapType;
   mapPageUrl: MapPageUrl;
   mapImageUrl: MapImageUrl;
+  panes: any[];
 
   fullPage?: boolean;
   hideHeader?: boolean;
@@ -120,6 +135,8 @@ const ColorMap = {
 export const Block: React.FC<Block> = props => {
   const {
     block,
+    panes,
+    exercises,
     children,
     level,
     fullPage,
@@ -133,7 +150,11 @@ export const Block: React.FC<Block> = props => {
   const blockValue = block?.value;
 
   const renderComponent = () => {
-    const renderChildText = createRenderChildText(customDecoratorComponents);
+    const renderChildText = createRenderChildText(
+      customDecoratorComponents,
+      panes,
+      exercises
+    );
 
     switch (blockValue?.type) {
       case "page":
@@ -204,6 +225,15 @@ export const Block: React.FC<Block> = props => {
           }
         } else {
           if (!blockValue.properties) return null;
+          const exercise = exercises.find((e: any) => e.id === blockValue.id);
+          if (exercise !== undefined) {
+            return (
+              <div>
+                <div>Exercise</div>
+                <div>{JSON.stringify(exercise)}</div>
+              </div>
+            );
+          }
           return (
             <a className="notion-page-link" href={mapPageUrl(blockValue.id)}>
               {blockValue.format && (
@@ -296,7 +326,7 @@ export const Block: React.FC<Block> = props => {
 
         return (
           <figure
-            className="notion-asset-wrapper"
+            className="max-w-full"
             style={
               value.format !== undefined
                 ? { width: value.format.block_width }
@@ -497,6 +527,10 @@ export const Block: React.FC<Block> = props => {
           </div>
         );
       case "toggle":
+        if (blockValue.properties.title[0][0] === "Ignore") {
+          return null;
+        }
+
         return (
           <details className="notion-toggle">
             <summary>{renderChildText(blockValue.properties.title)}</summary>

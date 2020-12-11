@@ -11,6 +11,8 @@ import { defaultMapImageUrl, defaultMapPageUrl } from "./utils";
 
 export interface NotionRendererProps {
   blockMap: BlockMapType;
+  panes: any[];
+  exercises: any[];
   fullPage?: boolean;
   hideHeader?: boolean;
   mapPageUrl?: MapPageUrl;

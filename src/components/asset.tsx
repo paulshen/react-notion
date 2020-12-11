@@ -54,11 +54,7 @@ const Asset: React.FC<{
             position: "relative"
           }}
         >
-          <img
-            className="notion-image-inset"
-            alt={caption || "notion image"}
-            src={src}
-          />
+          <img className="absolute" alt={caption || "notion image"} src={src} />
         </div>
       );
     } else {
