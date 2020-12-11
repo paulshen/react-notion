@@ -20,7 +20,7 @@ export function PostPaneLink({
           setShowPane(true);
           e.preventDefault();
         }}
-        className="underline"
+        className="border-b border-dashed border-gray-400"
       >
         {children}
       </a>
@@ -47,7 +47,7 @@ export default function PostPane({
   const pane = panes.find(p => p.id.replace(/-/g, "") === paneId);
   return (
     <Pane onClose={onClose}>
-      <div className="px-8 py-4 overflow-auto">
+      <div className="px-8 py-4 h-full overflow-auto">
         <NotionRenderer
           blockMap={pane.blocks}
           currentId={pane.id}

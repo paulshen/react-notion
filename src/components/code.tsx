@@ -1,4 +1,5 @@
 import { highlight, languages } from "prismjs";
+import "prismjs/components/prism-haskell";
 import "prismjs/components/prism-typescript";
 import * as React from "react";
 import { classNames } from "../utils";
@@ -12,7 +13,11 @@ const Code: React.FC<{
   const prismLanguage = languages[languageL];
   return (
     <div className={classNames("text-sm", className)}>
-      <pre className={`language-${language.replace(" ", "").toLowerCase()}`}>
+      <pre
+        className={`rounded-md p-4 leading-5 language-${language
+          .replace(" ", "")
+          .toLowerCase()}`}
+      >
         {prismLanguage !== undefined ? (
           <code
             dangerouslySetInnerHTML={{

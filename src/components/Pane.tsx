@@ -54,7 +54,7 @@ export default function Pane({
       ref={rootRef}
     >
       <div
-        className="flex align-middle justify-end bg-gray-700 h-8 flex-shrink-0"
+        className="flex align-middle justify-end bg-gray-800 h-8 flex-shrink-0"
         onMouseDown={onHeaderMouseDown}
       >
         <button
@@ -65,7 +65,7 @@ export default function Pane({
           Close
         </button>
       </div>
-      <div className="flex-grow relative">{children}</div>
+      <div className="flex-grow overflow-hidden relative">{children}</div>
     </div>,
     document.body
   );

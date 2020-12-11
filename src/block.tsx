@@ -25,7 +25,11 @@ export const createRenderChildText = (
 ) => (properties: DecorationType[]) => {
   return properties?.map(([text, decorations], i) => {
     if (!decorations) {
-      return <React.Fragment key={i}>{text}</React.Fragment>;
+      return (
+        <React.Fragment key={i}>
+          {text.replace(new RegExp(String.fromCharCode(160), "g"), " ")}
+        </React.Fragment>
+      );
     }
 
     return decorations.reduceRight((element, decorator) => {
@@ -39,7 +43,7 @@ export const createRenderChildText = (
             );
           case "c":
             return (
-              <code key={i} className="notion-inline-code">
+              <code key={i} className="bg-gray-100">
                 {element}
               </code>
             );
@@ -354,7 +358,7 @@ export const Block: React.FC<Block> = props => {
               key={blockValue.id}
               language={language || ""}
               code={content}
-              className="my-4"
+              className="-mx-4 my-6"
             />
           );
         }
