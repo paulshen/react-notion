@@ -24,7 +24,6 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
     }
   },
   "types": "./dist/types.d.ts",
