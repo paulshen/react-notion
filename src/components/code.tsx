@@ -1,15 +1,17 @@
 import { highlight, languages } from "prismjs";
 import "prismjs/components/prism-typescript";
 import * as React from "react";
+import { classNames } from "../utils";
 
-const Code: React.FC<{ code: string; language: string }> = ({
-  code,
-  language = "javascript"
-}) => {
+const Code: React.FC<{
+  code: string;
+  language: string;
+  className?: string;
+}> = ({ code, language = "javascript", className }) => {
   const languageL = language.toLowerCase();
   const prismLanguage = languages[languageL];
   return (
-    <div className="text-sm my-4">
+    <div className={classNames("text-sm", className)}>
       <pre className={`language-${language.replace(" ", "").toLowerCase()}`}>
         {prismLanguage !== undefined ? (
           <code

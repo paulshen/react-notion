@@ -1,27 +1,27 @@
 import * as React from "react";
-import {
-  DecorationType,
-  BlockType,
-  ContentValueType,
-  BlockMapType,
-  MapPageUrl,
-  MapImageUrl,
-  CustomBlockComponents,
-  BlockValueProp,
-  CustomDecoratorComponents,
-  CustomDecoratorComponentProps
-} from "./types";
 import Asset from "./components/asset";
 import Code from "./components/code";
-import PageIcon from "./components/page-icon";
+import { Exercise } from "./components/Exercise";
 import PageHeader from "./components/page-header";
-import { classNames, getTextContent, getListNumber } from "./utils";
+import PageIcon from "./components/page-icon";
 import { PostPaneLink } from "./components/PostPane";
+import {
+  BlockMapType,
+  BlockType,
+  BlockValueProp,
+  ContentValueType,
+  CustomBlockComponents,
+  CustomDecoratorComponentProps,
+  CustomDecoratorComponents,
+  DecorationType,
+  MapImageUrl,
+  MapPageUrl
+} from "./types";
+import { classNames, getListNumber, getTextContent } from "./utils";
 
 export const createRenderChildText = (
   customDecoratorComponents: CustomDecoratorComponents | undefined,
-  panes: any[],
-  exercises: any[]
+  panes: any[]
 ) => (properties: DecorationType[]) => {
   return properties?.map(([text, decorations], i) => {
     if (!decorations) {
@@ -104,6 +104,8 @@ interface Block {
   mapPageUrl: MapPageUrl;
   mapImageUrl: MapImageUrl;
   panes: any[];
+  exercises: any[];
+  renderEditor: (modelId: string, initialCode: string) => React.ReactNode;
 
   fullPage?: boolean;
   hideHeader?: boolean;
@@ -137,6 +139,7 @@ export const Block: React.FC<Block> = props => {
     block,
     panes,
     exercises,
+    renderEditor,
     children,
     level,
     fullPage,
@@ -152,8 +155,7 @@ export const Block: React.FC<Block> = props => {
   const renderComponent = () => {
     const renderChildText = createRenderChildText(
       customDecoratorComponents,
-      panes,
-      exercises
+      panes
     );
 
     switch (blockValue?.type) {
@@ -228,10 +230,11 @@ export const Block: React.FC<Block> = props => {
           const exercise = exercises.find((e: any) => e.id === blockValue.id);
           if (exercise !== undefined) {
             return (
-              <div>
-                <div>Exercise</div>
-                <div>{JSON.stringify(exercise)}</div>
-              </div>
+              <Exercise
+                exercise={exercise}
+                renderChildText={renderChildText}
+                renderEditor={renderEditor}
+              />
             );
           }
           return (
@@ -250,21 +253,21 @@ export const Block: React.FC<Block> = props => {
       case "header":
         if (!blockValue.properties) return null;
         return (
-          <h1 className="notion-h1">
+          <h1 className="text-2xl pt-8 pb-4 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h1>
         );
       case "sub_header":
         if (!blockValue.properties) return null;
         return (
-          <h2 className="text-3xl pt-8 pb-4 font-semibold">
+          <h2 className="text-xl pt-8 pb-4 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h2>
         );
       case "sub_sub_header":
         if (!blockValue.properties) return null;
         return (
-          <h3 className="text-xl pt-4 pb-2 font-semibold">
+          <h3 className="text-lg pt-4 pb-2 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h3>
         );
@@ -351,13 +354,18 @@ export const Block: React.FC<Block> = props => {
               key={blockValue.id}
               language={language || ""}
               code={content}
+              className="my-4"
             />
           );
         }
         break;
       }
       case "column_list":
-        return <div className="flex my-4">{children}</div>;
+        return (
+          <div className="flex my-4" style={{ marginRight: "-23px" }}>
+            {children}
+          </div>
+        );
       case "column":
         const spacerWith = 46;
         const ratio = blockValue.format.column_ratio;

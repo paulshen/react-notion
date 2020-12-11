@@ -13,6 +13,7 @@ export interface NotionRendererProps {
   blockMap: BlockMapType;
   panes: any[];
   exercises: any[];
+  renderEditor: (modelId: string, initialCode: string) => React.ReactNode;
   fullPage?: boolean;
   hideHeader?: boolean;
   mapPageUrl?: MapPageUrl;

@@ -47,7 +47,15 @@ export default function PostPane({
   const pane = panes.find(p => p.id.replace(/-/g, "") === paneId);
   return (
     <Pane onClose={onClose}>
-      <NotionRenderer blockMap={pane.blocks} currentId={pane.id} panes={[]} />
+      <div className="px-8 py-4 overflow-auto">
+        <NotionRenderer
+          blockMap={pane.blocks}
+          currentId={pane.id}
+          panes={[]}
+          exercises={[]}
+          renderEditor={() => null}
+        />
+      </div>
     </Pane>
   );
 }

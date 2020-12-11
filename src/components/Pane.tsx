@@ -45,7 +45,12 @@ export default function Pane({
   return ReactDOM.createPortal(
     <div
       className="fixed bg-white rounded-md overflow-hidden bottom-16 right-16 flex flex-col shadow-xl"
-      style={{ width: "480px", height: "480px" }}
+      style={{
+        width: "540px",
+        height: "480px",
+        maxWidth: "90vw",
+        maxHeight: "90vh"
+      }}
       ref={rootRef}
     >
       <div
@@ -60,7 +65,7 @@ export default function Pane({
           Close
         </button>
       </div>
-      <div className="px-8 py-4 overflow-auto">{children}</div>
+      <div className="flex-grow relative">{children}</div>
     </div>,
     document.body
   );

@@ -23,8 +23,7 @@
     "url": "https://tobi.sh"
   },
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "types": "./dist/types.d.ts",
   "prettier": {
