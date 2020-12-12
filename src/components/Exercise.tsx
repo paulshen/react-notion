@@ -35,7 +35,7 @@ export function Exercise({ exercise, renderChildText, renderEditor }: any) {
   const [showSolution, setShowSolution] = React.useState(false);
   return (
     <div
-      className="-mx-4 my-4 p-4 rounded-md"
+      className="-mx-2 p-2 md:p-4 md:-mx-4 my-4 rounded-md"
       style={{ backgroundColor: "#f8f3e6" }}
     >
       <div className="text-sm font-semibold">Exercise</div>

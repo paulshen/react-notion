@@ -14,7 +14,7 @@ const Code: React.FC<{
   return (
     <div className={classNames("text-sm", className)}>
       <pre
-        className={`rounded-md p-4 leading-5 language-${language
+        className={`text-gray-300 rounded-md p-2 md:p-4 leading-5 language-${language
           .replace(" ", "")
           .toLowerCase()}`}
       >

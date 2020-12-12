@@ -227,7 +227,7 @@ export const Block: React.FC<Block> = props => {
               </div>
             );
           } else {
-            return <main className="notion">{children}</main>;
+            return <main>{children}</main>;
           }
         } else {
           if (!blockValue.properties) return null;
@@ -279,7 +279,7 @@ export const Block: React.FC<Block> = props => {
         return <hr className="notion-hr" />;
       case "text":
         if (!blockValue.properties) {
-          return <div className="notion-blank">&nbsp;</div>;
+          return <div>&nbsp;</div>;
         }
         const blockColor = blockValue.format?.block_color;
         return (
@@ -358,7 +358,7 @@ export const Block: React.FC<Block> = props => {
               key={blockValue.id}
               language={language || ""}
               code={content}
-              className="-mx-4 my-6"
+              className="-mx-2 md:-mx-4 my-6"
             />
           );
         }
