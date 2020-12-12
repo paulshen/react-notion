@@ -257,21 +257,21 @@ export const Block: React.FC<Block> = props => {
       case "header":
         if (!blockValue.properties) return null;
         return (
-          <h1 className="text-2xl pt-8 pb-4 font-semibold">
+          <h1 className="text-2xl mt-10 mb-4 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h1>
         );
       case "sub_header":
         if (!blockValue.properties) return null;
         return (
-          <h2 className="text-xl pt-8 pb-4 font-semibold">
+          <h2 className="text-xl mt-10 mb-4 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h2>
         );
       case "sub_sub_header":
         if (!blockValue.properties) return null;
         return (
-          <h3 className="text-lg pt-4 pb-2 font-semibold">
+          <h3 className="text-lg mt-4 mb-2 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h3>
         );
@@ -285,7 +285,7 @@ export const Block: React.FC<Block> = props => {
         return (
           <p
             className={classNames(
-              "mb-3 text-base leading-relaxed whitespace-pre-line",
+              "my-3 text-base leading-relaxed whitespace-pre-line",
               blockColor && `notion-${blockColor}`
             )}
           >
