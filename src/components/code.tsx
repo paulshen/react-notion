@@ -1,5 +1,7 @@
 import { highlight, languages } from "prismjs";
 import "prismjs/components/prism-haskell";
+import "prismjs/components/prism-json";
+import "prismjs/components/prism-reason";
 import "prismjs/components/prism-typescript";
 import * as React from "react";
 import { classNames } from "../utils";
