@@ -54,7 +54,7 @@ export default function Pane({
       ref={rootRef}
     >
       <div
-        className="flex align-middle justify-end bg-gray-800 h-8 flex-shrink-0"
+        className="flex items-center justify-end bg-gray-800 h-8 flex-shrink-0"
         onMouseDown={onHeaderMouseDown}
       >
         <button
