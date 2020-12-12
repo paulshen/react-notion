@@ -284,7 +284,10 @@ export const Block: React.FC<Block> = props => {
         const blockColor = blockValue.format?.block_color;
         return (
           <p
-            className={classNames("mb-2", blockColor && `notion-${blockColor}`)}
+            className={classNames(
+              "mb-3 text-base leading-relaxed whitespace-pre-line",
+              blockColor && `notion-${blockColor}`
+            )}
           >
             {renderChildText(blockValue.properties.title)}
           </p>
@@ -365,23 +368,32 @@ export const Block: React.FC<Block> = props => {
         break;
       }
       case "column_list":
-        return (
-          <div className="flex my-4" style={{ marginRight: "-23px" }}>
-            {children}
-          </div>
-        );
+        return <div className="sm:flex my-4 columns">{children}</div>;
       case "column":
-        const spacerWith = 46;
+        const spacerWith = 32;
         const ratio = blockValue.format.column_ratio;
         const columns = Number((1 / ratio).toFixed(0));
         const spacerTotalWith = (columns - 1) * spacerWith;
         const width = `calc((100% - ${spacerTotalWith}px) * ${ratio})`;
         return (
           <>
-            <div className="notion-column" style={{ width }}>
+            <div
+              className="column"
+              style={{
+                // @ts-ignore
+                "--spacer-total-width": `${spacerTotalWith}px`,
+                "--ratio": `${ratio}`
+              }}
+            >
               {children}
             </div>
-            <div className="notion-spacer" style={{ width: spacerWith }} />
+            <div
+              className="spacer"
+              style={{
+                // @ts-ignore
+                "--spacer-width": `${spacerWith}px`
+              }}
+            />
           </>
         );
       case "quote":
