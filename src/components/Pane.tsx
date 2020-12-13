@@ -67,7 +67,9 @@ export default function Pane({
           Close
         </button>
       </div>
-      <div className="flex-grow overflow-hidden relative">{children}</div>
+      <div className="flex-grow overflow-hidden relative h-full">
+        {children}
+      </div>
     </div>,
     document.body
   );
