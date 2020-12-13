@@ -17,6 +17,7 @@ export default function Pane({
       return;
     }
 
+    document.body.style.userSelect = "none";
     const startPageX = e.pageX;
     const startPageY = e.pageY;
     const [offsetX, offsetY] = rootOffset.current;
@@ -28,6 +29,7 @@ export default function Pane({
       rootOffset.current = [newOffsetX, newOffsetY];
     }
     function cleanup() {
+      document.body.style.userSelect = "";
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", cleanup);
       cleanupDrag.current = undefined;
@@ -44,7 +46,7 @@ export default function Pane({
 
   return ReactDOM.createPortal(
     <div
-      className="fixed bg-white rounded-md overflow-hidden bottom-16 right-16 flex flex-col shadow-xl"
+      className="fixed z-50 bg-white rounded-md overflow-hidden bottom-4 right-4 sm:bottom-16 sm:right-16 flex flex-col shadow-xl"
       style={{
         width: "540px",
         height: "480px",

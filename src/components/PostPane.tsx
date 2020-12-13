@@ -47,7 +47,7 @@ export default function PostPane({
   const pane = panes.find(p => p.id.replace(/-/g, "") === paneId);
   return (
     <Pane onClose={onClose}>
-      <div className="px-8 py-4 h-full overflow-auto">
+      <div className="px-4 py-2 sm:px-8 sm:py-4 h-full overflow-auto">
         <NotionRenderer
           blockMap={pane.blocks}
           currentId={pane.id}
