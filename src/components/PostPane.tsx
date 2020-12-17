@@ -3,12 +3,12 @@ import { NotionRenderer } from "..";
 import Pane from "./Pane";
 
 export function PostPaneLink({
+  pane,
   panes,
-  paneId,
   children
 }: {
+  pane: any;
   panes: any[];
-  paneId: string;
   children: React.ReactNode;
 }) {
   const [showPane, setShowPane] = React.useState(false);
@@ -27,7 +27,7 @@ export function PostPaneLink({
       {showPane ? (
         <PostPane
           panes={panes}
-          paneId={paneId}
+          pane={pane}
           onClose={() => setShowPane(false)}
         />
       ) : null}
@@ -36,22 +36,21 @@ export function PostPaneLink({
 }
 
 export default function PostPane({
-  paneId,
+  pane,
   panes,
   onClose
 }: {
-  paneId: string;
+  pane: any;
   panes: any[];
   onClose: () => void;
 }) {
-  const pane = panes.find(p => p.id.replace(/-/g, "") === paneId);
   return (
     <Pane onClose={onClose}>
       <div className="px-4 py-2 sm:px-8 sm:py-4 h-full overflow-auto">
         <NotionRenderer
           blockMap={pane.blocks}
           currentId={pane.id}
-          panes={[]}
+          panes={panes}
           exercises={[]}
           renderEditor={() => null}
         />

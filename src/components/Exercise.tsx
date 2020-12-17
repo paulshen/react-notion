@@ -34,10 +34,7 @@ export function EditorPaneButton({
 export function Exercise({ exercise, renderChildText, renderEditor }: any) {
   const [showSolution, setShowSolution] = React.useState(false);
   return (
-    <div
-      className="-mx-2 p-2 md:p-4 md:-mx-4 my-4 rounded-md"
-      style={{ backgroundColor: "#f8f3e6" }}
-    >
+    <div className="-mx-2 p-2 md:p-4 md:-mx-4 my-4 rounded-md bg-tan">
       <div className="text-sm font-semibold">Exercise</div>
       <div className="mb-4">{renderChildText(exercise.prompt)}</div>
       <div className="flex">

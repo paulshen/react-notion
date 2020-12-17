@@ -19,6 +19,23 @@ import {
 } from "./types";
 import { classNames, getListNumber, getTextContent } from "./utils";
 
+function MyCustomComponent(props: { children: React.ReactNode }) {
+  const { children, ...restProps } = props;
+  return (
+    <div className="border border-dashed border-gray-300 px-4 pt-6 pb-2 relative">
+      <div className="absolute top-0 left-0 font-mono bg-blue-100 text-xs px-4">
+        {"<MyCustomComponent>"}
+      </div>
+      <code>props: {JSON.stringify(restProps)}</code>
+      {children}
+    </div>
+  );
+}
+
+const CustomComponents: Record<string, React.ComponentType<any>> = {
+  MyCustomComponent
+};
+
 export const createRenderChildText = (
   customDecoratorComponents: CustomDecoratorComponents | undefined,
   panes: any[]
@@ -59,11 +76,24 @@ export const createRenderChildText = (
             const matches = re.exec(href);
             if (matches !== null) {
               const paneId = matches![1];
-              return (
-                <PostPaneLink panes={panes} paneId={paneId} key={i}>
-                  {element}
-                </PostPaneLink>
-              );
+              const pane = panes.find(p => p.id.replace(/-/g, "") === paneId);
+              if (pane !== undefined) {
+                return (
+                  <PostPaneLink panes={panes} pane={pane} key={i}>
+                    {element}
+                  </PostPaneLink>
+                );
+              } else {
+                return (
+                  <a
+                    className="underline"
+                    href={`https://notion.so${decorator[1]}`}
+                    key={i}
+                  >
+                    {element}
+                  </a>
+                );
+              }
             }
             return (
               <a className="underline" href={decorator[1]} key={i}>
@@ -271,7 +301,7 @@ export const Block: React.FC<Block> = props => {
       case "sub_sub_header":
         if (!blockValue.properties) return null;
         return (
-          <h3 className="text-lg mt-4 mb-2 font-semibold">
+          <h3 className="text-lg mt-8 font-semibold">
             {renderChildText(blockValue.properties.title)}
           </h3>
         );
@@ -555,10 +585,39 @@ export const Block: React.FC<Block> = props => {
           return null;
         }
 
+        const tagMatch = /^<(.+)>$/.exec(blockValue.properties.title[0][0]);
+        if (tagMatch !== null) {
+          const tagName = tagMatch[1];
+          if (CustomComponents[tagName] !== undefined) {
+            let props;
+            if (blockValue.content!.length > 0) {
+              const firstChildBlockId = blockValue.content![0];
+              if (firstChildBlockId !== undefined) {
+                const firstChildBlock = blockMap[firstChildBlockId];
+                if (
+                  firstChildBlock.value.type === "code" &&
+                  firstChildBlock.value.properties.language[0][0] === "JSON"
+                ) {
+                  props = JSON.parse(
+                    firstChildBlock.value.properties.title[0][0]
+                  );
+                }
+              }
+            }
+
+            const Component = CustomComponents[tagName];
+            return (
+              <Component {...props}>
+                {React.Children.toArray(children).slice(1)}
+              </Component>
+            );
+          }
+        }
+
         return (
-          <details className="notion-toggle">
+          <details className="my-4">
             <summary>{renderChildText(blockValue.properties.title)}</summary>
-            <div>{children}</div>
+            <div className="pl-4">{children}</div>
           </details>
         );
       default:
