@@ -257,7 +257,7 @@ export const Block: React.FC<Block> = props => {
               </div>
             );
           } else {
-            return <main>{children}</main>;
+            return <main className="text-sm">{children}</main>;
           }
         } else {
           if (!blockValue.properties) return null;
@@ -315,7 +315,7 @@ export const Block: React.FC<Block> = props => {
         return (
           <p
             className={classNames(
-              "my-3 text-base leading-relaxed whitespace-pre-line",
+              "my-3 whitespace-pre-line",
               blockColor && `notion-${blockColor}`
             )}
           >

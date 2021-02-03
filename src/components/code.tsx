@@ -14,7 +14,7 @@ const Code: React.FC<{
   const languageL = language.toLowerCase();
   const prismLanguage = languages[languageL];
   return (
-    <div className={classNames("text-sm", className)}>
+    <div className={classNames("text-xs", className)}>
       <pre
         className={`text-gray-300 rounded-md p-2 md:p-4 leading-5 language-${language
           .replace(" ", "")
