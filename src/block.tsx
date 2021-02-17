@@ -620,6 +620,19 @@ export const Block: React.FC<Block> = props => {
             <div className="pl-4">{children}</div>
           </details>
         );
+      case "tweet":
+        return (
+          <div className="max-w-xs mx-auto my-6">
+            <blockquote className="twitter-tweet" data-conversation="none">
+              <a href={blockValue.properties.source[0][0]}></a>
+            </blockquote>
+            <script
+              async
+              src="https://platform.twitter.com/widgets.js"
+              charSet="utf-8"
+            ></script>
+          </div>
+        );
       default:
         if (process.env.NODE_ENV !== "production") {
           console.log("Unsupported type " + block?.value?.type);
