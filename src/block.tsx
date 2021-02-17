@@ -626,11 +626,6 @@ export const Block: React.FC<Block> = props => {
             <blockquote className="twitter-tweet" data-conversation="none">
               <a href={blockValue.properties.source[0][0]}></a>
             </blockquote>
-            <script
-              async
-              src="https://platform.twitter.com/widgets.js"
-              charSet="utf-8"
-            ></script>
           </div>
         );
       default:
@@ -660,6 +655,15 @@ export const Block: React.FC<Block> = props => {
       </CustomComponent>
     );
   }
+
+  React.useEffect(() => {
+    if (blockValue?.type === "tweet") {
+      const s = document.createElement("script");
+      s.setAttribute("src", "https://platform.twitter.com/widgets.js");
+      s.setAttribute("async", "true");
+      document.head.appendChild(s);
+    }
+  }, []);
 
   return renderComponent();
 };
